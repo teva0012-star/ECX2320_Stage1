@@ -157,8 +157,8 @@
 <section class="hero" style="border-top:none;">
   <div class="wrap">
     <div class="badge">Optional upgrades</div>
-    <h1 class="display">Additional services, when just trading isn't enough</h1>
-    <p class="hero-sub">Trading on TradeFair is always free. These are optional upgrades if you want more — more eyes on your listing, the option to take cash, or someone else handling the shipping.</p>
+    <h1 class="display">Additional services, for when just trading isn't enough</h1>
+    <p class="hero-sub">Trading on TradeFair is always free. This page lists optional upgrades for if you want more; more eyes on your listing, the option to earn cash, or someone else handling your shipping.</p>
   </div>
 </section>
 
@@ -172,7 +172,7 @@
     <div class="toggle-wrap">
       <div class="toggle" id="boostToggle">
         <button class="active" data-scope="single">Single listing</button>
-        <button data-scope="all">All your listings</button>
+        <button data-scope="all">All listings</button>
         <div class="toggle-pill" id="togglePill"></div>
       </div>
     </div>
@@ -192,8 +192,8 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1.4 1.3-2.5 3-2.5s3 1 3 2.2c0 2.8-6 1.3-6 4.1 0 1.3 1.3 2.2 3 2.2s3-1 3-2.2"/></svg>
       </div>
       <div>
-        <h3 class="display">Sell for cash, not just trades</h3>
-        <p>Buyers can purchase your goods through TradeFair using our built-in payment system, instead of trading item-for-item. A surcharge of 2.5% applies to any sale where money is exchanged — trading itself stays free.</p>
+        <h3 class="display">More than just trading</h3>
+        <p>Buyers can purchase your goods through TradeFair using our built-in payment system, instead of trading item-for-item. A surcharge of 2.5% applies to any sale where money is exchanged.</p>
         <button class="setup-payment-btn">Set up payment details<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
     </div>
@@ -204,7 +204,7 @@
   <div class="wrap">
     <div class="section-head">
       <h2 class="display">Don't want to meet up? Let us take care of shipping.</h2>
-      <p>Skip organising your own courier or handing over your address. Enter your package details below for an estimate.</p>
+      <p>Skip organising your own courier or handing over your address. Enter your package details below for an shipping cost estimate.</p>
     </div>
 
     <div class="calc-box">
@@ -232,13 +232,13 @@
           <input type="text" id="fromPostcodeContact" placeholder="e.g. 3000" inputmode="numeric">
         </div>
         <div class="field">
-          <label for="contactSelect">Send to a trade contact</label>
+          <label for="contactSelect">Sending to</label>
           <select id="contactSelect">
             <option value="">Select a user you're in contact with…</option>
-            <option>Jordan T. — clothing swap</option>
-            <option>Amelia R. — plant trade</option>
-            <option>Sam K. — tutoring exchange</option>
-            <option>Priya N. — homewares</option>
+            <option>Jordan T. - User number 942367281</option>
+            <option>Amelia R. - User number 628192863</option>
+            <option>Sam K. - User number 153685826</option>
+            <option>Priya N. - User number 364793768</option>
           </select>
         </div>
       </div>
@@ -246,9 +246,11 @@
       <div class="field">
         <label for="packageSize">Package size</label>
         <select id="packageSize">
+          <option value="extra small">Envelope — below to 150g</option>
           <option value="small">Small satchel — up to 1kg</option>
           <option value="medium">Medium box — up to 5kg</option>
           <option value="large">Large box — up to 15kg</option>
+          <option value="extra large">Large box — up to 25kg</option>
           <option value="custom">Custom dimensions</option>
         </select>
       </div>
@@ -268,7 +270,7 @@
 
       <div class="field">
         <label for="shipEmail">Email me this estimate</label>
-        <input type="email" id="shipEmail" placeholder="you@email.com">
+        <input type="email" id="shipEmail" placeholder="tiae524@gmail.com">
       </div>
 
       <button class="calc-btn" id="calcBtn">Calculate shipping</button>
@@ -295,15 +297,15 @@
       </div>
       <div class="faq-item">
         <div class="faq-q">How am I charged for a listing boost?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
-        <div class="faq-a">Boosts are a one-off charge to your saved payment method at the moment you buy them — not a subscription. Your listing is promoted for a fixed placement window with no auto-renewal.</div>
+        <div class="faq-a">Listing boosts are charged to your saved payment method at the moment you buy them. For single listings, your listing is promoted until it is taken down, sold, or been up for more than 6 months. All listing boosts last for one year after the purchase date and have the option for reoccuring payments.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q">How does the 2.5% cash surcharge get paid?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
-        <div class="faq-a">It's deducted automatically from the sale before your balance is paid out — you never receive a separate invoice.</div>
+        <div class="faq-a">It's deducted automatically from the sale before your balance is paid out.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">When is shipping charged?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
-        <div class="faq-a">Only once you generate a shipping label, based on the package details you provide — not before.</div>
+        <div class="faq-q">How is shipping charged?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div class="faq-a">Shipping is charged to the provider after they have recieved a shipping label matching the packages details. Payment details must be provided before a shipping label can be created.</div>
       </div>
     </div>
   </div>
@@ -363,7 +365,7 @@
       </div>
     `).join('');
     boostFootnote.textContent = scope === 'single'
-      ? '* Categories are set by the seller when creating a listing (clothing/accessories, homewares, electronics, vehicles/accessories, services, advice/support, other). Boosted listings are only promoted to users browsing that category.'
+      ? '* Categories are set by the seller when creating a listing (clothing/accessories, homewares, electronics, etc.). Boosted listings are only promoted to users browsing that category.'
       : '** When boosting all listings, each listing is still promoted within whichever category it was defined under — this plan covers every listing you currently have live, across categories.';
   }
 
