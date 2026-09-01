@@ -195,7 +195,7 @@
       <div>
         <h3 class="display">More than just trading</h3>
         <p>Buyers can purchase your goods through Allaso using our built-in payment system, instead of trading item-for-item. A surcharge of 2.5% applies to any sale where money is exchanged.</p>
-        <button class="setup-payment-btn">Set up payment details<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <button class="setup-payment-btn" id="setupPaymentBtn">Set up payment details<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
     </div>
   </div>
@@ -280,7 +280,6 @@
         Could not get an estimate, please try again later.
         <span class="sub" id="resultSub"></span>
       </div>
-      <div class="calc-count" id="calcCount"></div>
     </div>
   </div>
 </section>
@@ -361,7 +360,7 @@
         <ul>
           ${c.features.map(f => `<li>${checkSvg}<span>${f}</span></li>`).join('')}
         </ul>
-        <button>Choose ${c.tag}</button>
+        <button data-tier="${c.tag}" data-price="${c.price}" data-scope="${scope}">Choose ${c.tag}</button>
       </div>
     `).join('');
     boostFootnote.textContent = scope === 'single'
@@ -400,49 +399,64 @@
     item.classList.toggle('open');
   });
 
-  // --- shipping calculator submit ---
-  async function refreshCalcCount(){
-    try{
-      const res = await window.storage.list('shipping-request:', true);
-      const n = res && res.keys ? res.keys.length : 0;
-      document.getElementById('calcCount').textContent = n > 0 ? n + ' estimate requests received so far.' : '';
-    }catch(e){}
+  // --- Formspree endpoint: every conversion event on this page posts here ---
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwlklvlg';
+
+  function sendToFormspree(payload){
+    return fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(Object.assign({ page: 'services-pricing', ts: new Date().toISOString() }, payload))
+    }).catch(function(){ /* fail silently — don't block the visitor's experience */ });
   }
 
+  // --- boost tile clicks: record which tier was chosen, at the real price shown ---
+  boostCards.addEventListener('click', function(e){
+    const btn = e.target.closest('button');
+    if(!btn || btn.disabled) return;
+    const tier = btn.dataset.tier, price = btn.dataset.price, scope = btn.dataset.scope;
+    btn.disabled = true;
+    btn.textContent = 'Noted — thanks!';
+    sendToFormspree({ form_type: 'boost_interest', tier: tier, price: price, scope: scope });
+  });
+
+  // --- cash payment setup click ---
+  document.getElementById('setupPaymentBtn').addEventListener('click', function(){
+    if(this.disabled) return;
+    this.disabled = true;
+    this.textContent = 'Noted — thanks!';
+    sendToFormspree({ form_type: 'cash_payment_interest' });
+  });
+
+  // --- shipping calculator submit ---
   document.getElementById('calcBtn').addEventListener('click', async function(){
     const destMode = document.querySelector('#destSeg button.active').dataset.mode;
     const email = document.getElementById('shipEmail').value.trim();
     const packageSize = document.getElementById('packageSize').value;
-
-    const entry = {
-      destMode,
-      from: destMode === 'location' ? document.getElementById('fromPostcode').value.trim() : document.getElementById('fromPostcodeContact').value.trim(),
-      to: destMode === 'location' ? document.getElementById('toPostcode').value.trim() : null,
-      contact: destMode === 'contact' ? document.getElementById('contactSelect').value : null,
-      packageSize,
-      weight: packageSize === 'custom' ? document.getElementById('weight').value : null,
-      dims: packageSize === 'custom' ? document.getElementById('dims').value : null,
-      email,
-      ts: new Date().toISOString()
-    };
 
     if(!email){
       alert('Please add an email so we can send you the estimate once pricing is live.');
       return;
     }
 
-    const key = 'shipping-request:' + email.toLowerCase() + ':' + Date.now();
-    try{
-      await window.storage.set(key, JSON.stringify(entry), true);
-    }catch(e){}
+    await sendToFormspree({
+      form_type: 'shipping_estimate_request',
+      destMode: destMode,
+      from: destMode === 'location' ? document.getElementById('fromPostcode').value.trim() : document.getElementById('fromPostcodeContact').value.trim(),
+      to: destMode === 'location' ? document.getElementById('toPostcode').value.trim() : null,
+      contact: destMode === 'contact' ? document.getElementById('contactSelect').value : null,
+      packageSize: packageSize,
+      weight: packageSize === 'custom' ? document.getElementById('weight').value : null,
+      dims: packageSize === 'custom' ? document.getElementById('dims').value : null,
+      email: email
+    });
 
     document.getElementById('resultBox').classList.add('show');
     document.getElementById('resultSub').textContent = "We've saved your details and will email " + email + " once shipping pricing is live.";
-    refreshCalcCount();
   });
-
-  refreshCalcCount();
 </script>
+
+<script data-goatcounter="https://allaso.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
 </body>
 </html>
